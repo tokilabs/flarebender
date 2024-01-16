@@ -14,6 +14,7 @@ import inviteGuest from './invite-guest.js';
 import handleProxy from './proxy.js';
 import handleRedirect from './redirect.js';
 import apiRouter from './router.js';
+import { invite } from './util/headers.js';
 
 // Export a default object containing event handlers
 export default {
@@ -50,20 +51,20 @@ export default {
 		try {
 			// Forward all other path names to the DEFAULT_SITE
 			if (env.DEFAULT_SITE && env.DEFAULT_SITE != 'NONE') {
-				const newUrl = new URL(env[`${env.DEFAULT_SITE}_SITE_URL`]);
+				let hostUrl = env.HOST_SITE_URL;
+				let guestUrl = env.GUEST_SITE_URL;
 
-				newUrl.pathname = url.pathname;
+				if (env.DEFAULT_SITE == 'GUEST') {
+					hostUrl = env.GUEST_SITE_URL;
+					guestUrl = env.HOST_SITE_URL;
+				}
 
-				console.log(`URL ${url} => ${newUrl}`);
+				const destUrl = new URL(hostUrl);
+				destUrl.pathname = url.pathname;
 
-				const res = await inviteGuest.fetch(new Request(newUrl, request), env, ctx);
+				console.log(`URL ${url} => ${destUrl}`);
 
-				const text = await res.text();
-
-				console.log('========== Response =========', text);
-				console.log('========== // Response =========');
-
-				return new Response(text, res);
+				return invite(guestUrl, await fetch(destUrl));
 			}
 		} catch (err) {
 			console.error(err);
