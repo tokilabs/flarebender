@@ -170,3 +170,7 @@ dist
 
 .dev.vars
 .wrangler/
+
+
+# Where chrome save modifications
+.chrome-overrides/
