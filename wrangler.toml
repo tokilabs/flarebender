@@ -9,7 +9,7 @@ workers_dev        = true
 	DEFAULT_SITE   = "HOST"
 
 [[routes]]
-	pattern   = "app.calligo.com.br"
+	pattern   = "app.calligo.com.br/*"
 	zone_name = "calligo.com.br"
 
 	# compatibility_date = "2023-12-18"
