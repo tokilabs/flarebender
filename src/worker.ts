@@ -10,11 +10,12 @@
 
 import showGuest from './guest-show.js';
 import showHost from './host-show.js';
-import inviteGuest from './invite-guest.js';
 import handleProxy from './proxy.js';
 import handleRedirect from './redirect.js';
 import apiRouter from './router.js';
+import show from './show.js';
 import { invite } from './util/headers.js';
+import { requestFrom } from './util/routing.js';
 
 // Export a default object containing event handlers
 export default {
@@ -31,7 +32,7 @@ export default {
 		// You can get pretty far with simple logic like if/switch-statements
 		switch (url.pathname) {
 			case '/':
-				return showGuest.fetch(request, env, ctx);
+				return show.fetch(requestFrom(env.GUEST_SITE_URL, request), env, ctx);
 
 			case '/redirect':
 				return handleRedirect.fetch(request, env, ctx);
@@ -65,11 +66,11 @@ export default {
 				const destUrl = new URL(defaultSiteUrl);
 				destUrl.pathname = url.pathname;
 				destUrl.hash = url.hash;
-				destUrl.search= url.search;
+				destUrl.search = url.search;
 
 				console.log(`URL ${url} => ${destUrl}`);
 
-				return invite(otherSiteUrl, await fetch(destUrl));
+				return invite(env.FLAREBENDER_URL, invite(otherSiteUrl, await fetch(destUrl)));
 			}
 		} catch (err) {
 			console.error(err);

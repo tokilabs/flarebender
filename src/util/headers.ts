@@ -1,3 +1,5 @@
+import { listAllHosts } from './sites';
+
 export function removeHeaders(headers: string[], response: Response): Response {
 	if (!headers || headers.length === 0) {
 		throw new Error('Headers to be removed not provided to removeHeaders()');
@@ -26,11 +28,21 @@ export function updateHeader(response: Response, header: string, updater: (value
 	return newResponse;
 }
 
-export function invite(guestUrl: string, response: Response): Response {
+export function invite(guestHost: string, response: Response): Response;
+export function invite(guestsHosts: string[], response: Response): Response;
+export function invite(guests: string | string[], response: Response): Response {
+	if (!guests || guests.length === 0) {
+		return response;
+	}
+
+	if (Array.isArray(guests)) {
+		guests = guests.join(' ');
+	}
+
 	return removeHeaders(
 		['Report-To'],
 		updateHeader(response, 'Content-Security-Policy', (value: string | null) => {
-			console.log(`Updating Content-Security-Policy Header to include ${guestUrl}`);
+			console.log(`Updating Content-Security-Policy Header to include ${guests}`);
 			console.log(`    current value: ${value}`);
 
 			if (!value) {
@@ -40,11 +52,15 @@ export function invite(guestUrl: string, response: Response): Response {
 			// remove report-uri
 			value = value.replace(/report\-uri [^;];/, '');
 
-			const updatedVal = value.replace(/(['"]self['"])/, `'self' ${guestUrl}`);
+			const updatedVal = value.replace(/(['"]self['"])/, `'self' ${guests}`);
 
 			console.log(`    updated value: ${updatedVal}`);
 
 			return updatedVal;
 		})
 	);
+}
+
+export function inviteAllGuests(env: Env, response: Response): Response {
+	return invite(listAllHosts(env), response);
 }

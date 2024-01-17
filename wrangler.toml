@@ -5,14 +5,21 @@ workers_dev        = true
 
 [vars]
 	HOST_SITE_URL   = "https://app.calligo.com.br"
-	GUEST_SITE_URL  = "https://www.calligo.com.br"
-	FLAREBENDER_URL = "https://site.calligo.com.br"
+	GUEST_SITE_URL  = "https://site.calligo.com.br"
+	FLAREBENDER_URL = "https://calligo.com.br"
+	OTHER_GUESTS    = ["https://www.calligo.com.br", "https://localhost:8787"]
 	DEFAULT_SITE    = "HOST"
 
 [[routes]]
-	pattern       = "site.calligo.com.br"
+	pattern       = "calligo.com.br"
 	zone_name     = "calligo.com.br"
 	custom_domain = true
+
+[env.dev.vars]
+	HOST_SITE_URL   = "https://app.calligo.com.br"
+	GUEST_SITE_URL  = "https://site.calligo.com.br"
+	FLAREBENDER_URL = "https://localhost:8787"
+	DEFAULT_SITE    = "HOST"
 
 	# compatibility_date = "2023-12-18"
 
