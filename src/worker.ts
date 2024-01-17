@@ -51,20 +51,22 @@ export default {
 		try {
 			// Forward all other path names to the DEFAULT_SITE
 			if (env.DEFAULT_SITE && env.DEFAULT_SITE != 'NONE') {
-				let hostUrl = env.HOST_SITE_URL;
-				let guestUrl = env.GUEST_SITE_URL;
+				let defaultSiteUrl = env.HOST_SITE_URL;
+				let otherSiteUrl = env.GUEST_SITE_URL;
 
 				if (env.DEFAULT_SITE == 'GUEST') {
-					hostUrl = env.GUEST_SITE_URL;
-					guestUrl = env.HOST_SITE_URL;
+					defaultSiteUrl = env.GUEST_SITE_URL;
+					otherSiteUrl = env.HOST_SITE_URL;
 				}
 
-				const destUrl = new URL(hostUrl);
+				const destUrl = new URL(defaultSiteUrl);
 				destUrl.pathname = url.pathname;
+				destUrl.hash = url.hash;
+				destUrl.search= url.search;
 
 				console.log(`URL ${url} => ${destUrl}`);
 
-				return invite(guestUrl, await fetch(destUrl));
+				return invite(otherSiteUrl, await fetch(destUrl));
 			}
 		} catch (err) {
 			console.error(err);
