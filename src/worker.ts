@@ -30,6 +30,9 @@ export default {
 		console.log('    .pathname:', url.pathname);
 		// You can get pretty far with simple logic like if/switch-statements
 		switch (url.pathname) {
+			case '/':
+				return showGuest.fetch(request, env, ctx);
+
 			case '/redirect':
 				return handleRedirect.fetch(request, env, ctx);
 

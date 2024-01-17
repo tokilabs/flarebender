@@ -17,6 +17,7 @@ export default {
 		const res = await fetch(env.GUEST_SITE_URL);
 
 		invite(env.HOST_SITE_URL, res);
+		invite(env.FLAREBENDER_URL, res);
 
 		return makeLinksAbsolute(res);
 	},

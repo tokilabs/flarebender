@@ -1,4 +1,4 @@
-export function removeHeaders(response: Response, headers: string[]): Response {
+export function removeHeaders(headers: string[], response: Response): Response {
 	if (!headers || headers.length === 0) {
 		throw new Error('Headers to be removed not provided to removeHeaders()');
 	}
@@ -27,17 +27,24 @@ export function updateHeader(response: Response, header: string, updater: (value
 }
 
 export function invite(guestUrl: string, response: Response): Response {
-	return updateHeader(response, 'Content-Security-Policy', (value: string | null) => {
-		console.log(`Updating Content-Security-Policy Header to include ${guestUrl}`);
-		console.log(`    current value: ${value}`);
+	return removeHeaders(
+		['Report-To'],
+		updateHeader(response, 'Content-Security-Policy', (value: string | null) => {
+			console.log(`Updating Content-Security-Policy Header to include ${guestUrl}`);
+			console.log(`    current value: ${value}`);
 
-		if (!value) {
-			return null;
-		}
+			if (!value) {
+				return null;
+			}
 
-		const updatedVal = value.replace(/(['"]self['"])/, `'self' ${guestUrl}`);
-		console.log(`    updated value: ${updatedVal}`);
+			// remove report-uri
+			value = value.replace(/report\-uri [^;];/, '');
 
-		return updatedVal;
-	});
+			const updatedVal = value.replace(/(['"]self['"])/, `'self' ${guestUrl}`);
+
+			console.log(`    updated value: ${updatedVal}`);
+
+			return updatedVal;
+		})
+	);
 }

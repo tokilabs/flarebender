@@ -4,13 +4,15 @@ compatibility_date = "2024-01-16"
 workers_dev        = true
 
 [vars]
-	HOST_SITE_URL  = "https://app.calligo.com.br"
-	GUEST_SITE_URL = "https://www.calligo.com.br"
-	DEFAULT_SITE   = "HOST"
+	HOST_SITE_URL   = "https://app.calligo.com.br"
+	GUEST_SITE_URL  = "https://www.calligo.com.br"
+	FLAREBENDER_URL = "https://site.calligo.com.br"
+	DEFAULT_SITE    = "HOST"
 
 [[routes]]
-	pattern   = "app.calligo.com.br/*"
-	zone_name = "calligo.com.br"
+	pattern       = "site.calligo.com.br"
+	zone_name     = "calligo.com.br"
+	custom_domain = true
 
 	# compatibility_date = "2023-12-18"
 

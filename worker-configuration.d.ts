@@ -25,5 +25,10 @@ interface Env {
 	 */
 	GUEST_SITE_URL: string;
 
+	/**
+	 * Custom domain of the Flarebender worker on Cloudflare
+	 */
+	FLAREBENDER_URL: string;
+
 	DEFAULT_SITE: 'HOST' | 'GUEST' | 'NONE';
 }
