@@ -53,12 +53,10 @@ export default {
 			}
 
 			if (url.pathname.startsWith('/assets/')) {
-				// You can also use more robust routing
-				// return new Response(
-				// 	fs.readFile(new URL(url.pathname, import.meta.url)),
-				// )
+
 				console.log('[asset]', request.url);
-				return fetch(request.url);
+				let newPath = url.pathname.replace('/assets', '');
+				return fetch(`https://r2.calligo.com.br${newPath}`);
 			}
 
 			if (url.pathname.startsWith('/_astro/')) {
