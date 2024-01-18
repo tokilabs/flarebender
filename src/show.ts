@@ -7,6 +7,7 @@ export default {
 		// Only GET requests work with this proxy.
 		if (request.method !== 'GET') return MethodNotAllowed(request);
 
-		return makeLinksAbsolute(inviteAllGuests(env, await fetch(env.GUEST_SITE_URL)));
+		console.log('    fetching:', request.url);
+		return inviteAllGuests(env, await fetch(request.url));
 	},
 };

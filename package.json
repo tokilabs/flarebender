@@ -3,9 +3,10 @@
 	"version": "0.0.0",
 	"private": true,
 	"scripts": {
-		"deploy": "wrangler deploy --env prod",
-		"dev": "wrangler dev --port 8787 --local-protocol https --env dev",
-		"start": "wrangler dev --port 8787 --local-protocol https --env dev"
+		"deploy": "wrangler deploy",
+		"deploy:prod": "wrangler deploy --env prod",
+		"dev": "wrangler dev",
+		"dev:prod": "wrangler dev --env prod"
 	},
 	"devDependencies": {
 		"@cloudflare/workers-types": "^4.20231218.0",

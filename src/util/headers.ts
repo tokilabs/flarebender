@@ -39,28 +39,29 @@ export function invite(guests: string | string[], response: Response): Response 
 		guests = guests.join(' ');
 	}
 
-	return removeHeaders(
-		['Report-To'],
-		updateHeader(response, 'Content-Security-Policy', (value: string | null) => {
-			console.log(`Updating Content-Security-Policy Header to include ${guests}`);
-			console.log(`    current value: ${value}`);
+	const newResponse = updateHeader(response, 'Content-Security-Policy', (value: string | null) => {
+		console.log(`Updating Content-Security-Policy Header to include ${guests}`);
 
-			if (!value) {
-				return null;
-			}
+		if (!value) {
+			return null;
+		}
 
-			// remove report-uri
-			value = value.replace(/report\-uri [^;];/, '');
+		return (
+			value
+				// remove report-uri
+				.replace(/report\-uri [^;]*;/, '')
+				// append guest url after each 'self'
+				.replace(/(['"]self['"])/g, `'self' ${guests}`)
+		);
+	});
 
-			const updatedVal = value.replace(/(['"]self['"])/, `'self' ${guests}`);
-
-			console.log(`    updated value: ${updatedVal}`);
-
-			return updatedVal;
-		})
-	);
+	return removeHeaders(['Report-To'], newResponse);
 }
 
 export function inviteAllGuests(env: Env, response: Response): Response {
+	if (Array.isArray(env.INVITE_ONLY) && env.INVITE_ONLY.length > 0) {
+		return invite(env.INVITE_ONLY, response);
+	}
+
 	return invite(listAllHosts(env), response);
 }

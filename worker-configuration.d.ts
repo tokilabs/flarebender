@@ -18,7 +18,13 @@ interface Env {
 	/**
 	 * Other urls that should be given the same permissions 'self' has
 	 */
-	OTHER_GUESTS: string[];
+	OTHER_GUESTS?: string[];
+
+	/**
+	 * When present, only the guest sites specified here will be added
+	 * to the Content-Security-Policy header.
+	 */
+	INVITE_ONLY?: string[];
 
 	DEFAULT_SITE: 'HOST' | 'GUEST' | 'NONE';
 
