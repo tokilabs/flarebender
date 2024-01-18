@@ -18,7 +18,7 @@ interface Env {
 	/**
 	 * Other urls that should be given the same permissions 'self' has
 	 */
-	OTHER_SITES: string[];
+	OTHER_GUESTS: string[];
 
 	DEFAULT_SITE: 'HOST' | 'GUEST' | 'NONE';
 

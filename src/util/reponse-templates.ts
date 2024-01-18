@@ -6,3 +6,9 @@ export async function MethodNotAllowed(request: Request) {
 		},
 	});
 }
+
+export async function PageNotFound(request: Request) {
+	return new Response(`Nothing to see here.`, {
+		status: 404,
+	});
+}

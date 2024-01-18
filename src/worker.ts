@@ -15,6 +15,7 @@ import handleRedirect from './redirect.js';
 import apiRouter from './router.js';
 import show from './show.js';
 import { invite } from './util/headers.js';
+import { PageNotFound } from './util/reponse-templates.js';
 import { requestFrom } from './util/routing.js';
 
 // Export a default object containing event handlers
@@ -77,6 +78,6 @@ export default {
 			return new Response(err?.message || '', { status: 500 });
 		}
 
-		return new Response('', { status: 404 });
+		return PageNotFound(request);
 	},
 };

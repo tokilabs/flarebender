@@ -7,7 +7,7 @@ workers_dev        = true
 	HOST_SITE_URL   = "https://app.calligo.com.br"
 	GUEST_SITE_URL  = "https://site.calligo.com.br"
 	FLAREBENDER_URL = "https://calligo.com.br"
-	OTHER_GUESTS    = ["https://www.calligo.com.br", "https://localhost:8787"]
+	OTHER_GUESTS    = ["https://www.calligo.com.br"]
 	DEFAULT_SITE    = "HOST"
 
 [[routes]]
@@ -19,6 +19,7 @@ workers_dev        = true
 	HOST_SITE_URL   = "https://app.calligo.com.br"
 	GUEST_SITE_URL  = "https://site.calligo.com.br"
 	FLAREBENDER_URL = "https://localhost:8787"
+	OTHER_GUESTS    = ["https://www.calligo.com.br"]
 	DEFAULT_SITE    = "HOST"
 
 	# compatibility_date = "2023-12-18"
