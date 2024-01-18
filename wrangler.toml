@@ -20,7 +20,7 @@ workers_dev        = true
 	DEFAULT_SITE    = "HOST"
 	HOST_SITE_URL   = "https://app.calligo.com.br"
 	GUEST_SITE_URL  = "https://site.calligo.com.br"
-	FLAREBENDER_URL = "https://www.calligo.com.br"
+	FLAREBENDER_URL = "https://dev.calligo.com.br"
 	INVITE_ONLY     = ["*.calligo.com.br"]
 
 [env.prod]

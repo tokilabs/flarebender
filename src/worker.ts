@@ -52,6 +52,17 @@ export default {
 					});
 			}
 
+			if (url.pathname.startsWith('/assets/')) {
+				// You can also use more robust routing
+				// return new Response(
+				// 	fs.readFile(new URL(url.pathname, import.meta.url)),
+				// )
+				console.log('[asset]', request.url);
+				const url = new URL(request.url);
+				url.host = 'localhost:8787';
+				return fetch(request.url);
+			}
+
 			if (url.pathname.startsWith('/_astro/')) {
 				// You can also use more robust routing
 				console.log('Astro URL detected:', request.url);
