@@ -58,8 +58,6 @@ export default {
 				// 	fs.readFile(new URL(url.pathname, import.meta.url)),
 				// )
 				console.log('[asset]', request.url);
-				const url = new URL(request.url);
-				url.host = 'localhost:8787';
 				return fetch(request.url);
 			}
 
