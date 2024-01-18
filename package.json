@@ -6,7 +6,9 @@
 		"deploy": "wrangler deploy",
 		"deploy:prod": "wrangler deploy --env prod",
 		"dev": "wrangler dev",
-		"dev:prod": "wrangler dev --env prod"
+		"dev:prod": "wrangler dev --env prod",
+		"upload-folder": "node src/util/uploadFolder.js"
+
 	},
 	"devDependencies": {
 		"@cloudflare/workers-types": "^4.20231218.0",
