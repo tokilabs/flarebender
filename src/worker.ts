@@ -11,6 +11,7 @@
 import { inject } from './inject.js';
 import handleProxy from './proxy.js';
 import handleRedirect from './redirect.js';
+import staticHandler from './static.js';
 import apiRouter from './api-router.js';
 import show from './show.js';
 import { invite, inviteAllGuests } from './util/headers.js';
@@ -45,18 +46,27 @@ export default {
 					return handleProxy.fetch(request, env, ctx);
 
 				case '/s':
-					return inject(await show.fetch(requestFrom(env.HOST_SITE_URL, request), env, ctx), {
-						content: String('<script type="text/javascript" src="/assets/sharetribe-custom-script.js"></script>'),
-						html: true,
+					return inviteAllGuests(
 						env,
-					});
+						await inject(await show.fetch(requestFrom(env.HOST_SITE_URL, request), env, ctx), {
+							content: String(`
+							<link rel="stylesheet" href="${env.STATIC_PREFIX}/sharetribe/custom-styles.css" />
+							<script type="text/javascript" src="${env.STATIC_PREFIX}/sharetribe/custom-script.js"></script>
+						`),
+							html: true,
+							env,
+						})
+					);
+			}
+
+			if (url.pathname.startsWith(env.STATIC_PREFIX)) {
+				return staticHandler.fetch(request, env, ctx);
 			}
 
 			if (url.pathname.startsWith('/assets/')) {
-
 				console.log('[asset]', request.url);
 				let newPath = url.pathname.replace('/assets', '');
-				return fetch(`https://r2.calligo.com.br${newPath}`);
+				return fetch(`${env.ASSETS_ROOT_URL}${newPath}`);
 			}
 
 			if (url.pathname.startsWith('/_astro/')) {

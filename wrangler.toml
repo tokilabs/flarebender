@@ -4,10 +4,8 @@ account_id         = "98b1eb8f5ff834b7407343d0a4749e9f"
 compatibility_date = "2024-01-16"
 workers_dev        = true
 
-[route]
-	pattern       = "dev.calligo.com.br"
-	zone_name     = "calligo.com.br"
-	custom_domain = true
+[site]
+	bucket = "./public"
 
 [dev]
 	port              = 8787
@@ -15,16 +13,42 @@ workers_dev        = true
 	upstream_protocol = "https"
 	host              = "dev.calligo.com.br"
 
-[vars]
-	ENVIRONMENT     = "dev"
-	DEFAULT_SITE    = "HOST"
-	HOST_SITE_URL   = "https://app.calligo.com.br"
-	GUEST_SITE_URL  = "https://site.calligo.com.br"
-	FLAREBENDER_URL = "https://dev.calligo.com.br"
-	INVITE_ONLY     = ["*.calligo.com.br"]
+[env.dev]
+	name = "calligo-flarebender-prod"
+
+	[env.dev.route]
+		pattern       = "dev.calligo.com.br"
+		zone_name     = "calligo.com.br"
+		custom_domain = true
+
+	[[env.dev.r2_buckets]]
+		binding             = "r2"
+		bucket_name         = "calligo-dev"
+		preview_bucket_name = "calligo-dev-preview"
+
+	[env.dev.vars]
+		ENVIRONMENT     = "dev"
+		DEFAULT_SITE    = "HOST"
+		HOST_SITE_URL   = "https://app.calligo.com.br"
+		GUEST_SITE_URL  = "https://site.calligo.com.br"
+		FLAREBENDER_URL = "https://dev.calligo.com.br"
+		INVITE_ONLY     = ["*.calligo.com.br", "api.mapbox.com"]
+		ASSETS_ROOT_URL = "https://pub-af676e7bac2a43fe933b3cad13657f02.r2.dev"
+		ASSETS_ROOT     = "./public"
+		STATIC_PREFIX   = "/flarebender-static"
+		BUCKET_NAME     = "calligo-dev"
+
+	[[env.dev.kv_namespaces]]
+		binding = "assets"
+		id      = "6ba58482c4ee4c5ca1b42e1250ad2451"
+
+	[[env.dev.kv_namespaces]]
+		binding = "__STATIC_CONTENT"
+		id      = "05e8fbe41d72483389e940b0af11efdd"
 
 [env.prod]
 	name = "calligo-flarebender-prod"
+
 	[env.prod.route]
 		pattern       = "calligo.com.br"
 		zone_name     = "calligo.com.br"
@@ -36,54 +60,21 @@ workers_dev        = true
 		HOST_SITE_URL   = "https://app.calligo.com.br"
 		GUEST_SITE_URL  = "https://site.calligo.com.br"
 		FLAREBENDER_URL = "https://calligo.com.br"
-		OTHER_GUESTS    = ["https://www.calligo.com.br", "https://r2.calligo.com.br"]
+		INVITE_ONLY     = ["*.calligo.com.br", "api.mapbox.com"]
+		ASSETS_ROOT_URL = "https://r2.calligo.com.br"
+		ASSETS_ROOT     = "./public"
+		STATIC_PREFIX   = "/flarebender-static"
+		BUCKET_NAME     = "calligo"
 
-		# compatibility_date = "2023-12-18"
+	[[env.prod.kv_namespaces]]
+		binding = "assets"
+		id      = "246d12a1318446b7bccfc0ba5286e823"
 
-		# Variable bindings. These are arbitrary, plaintext strings (similar to environment variables)
-		# Note: Use secrets to store sensitive data.
-		# Docs: https://developers.cloudflare.com/workers/platform/environment-variables
-		# [vars]
-		# MY_VARIABLE = "production_value"
+	[[env.prod.kv_namespaces]]
+		binding = "__STATIC_CONTENT"
+		id      = "13bca2c51789402d8397d9732771e59a"
 
-		# Bind a KV Namespace. Use KV as persistent storage for small key-value pairs.
-		# Docs: https://developers.cloudflare.com/workers/runtime-apis/kv
-		# [[kv_namespaces]]
-		# binding = "MY_KV_NAMESPACE"
-		# id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-
-		# Bind an R2 Bucket. Use R2 to store arbitrarily large blobs of data, such as files.
-		# Docs: https://developers.cloudflare.com/r2/api/workers/workers-api-usage/
-		# [[r2_buckets]]
-		# binding = "MY_BUCKET"
-		# bucket_name = "my-bucket"
-
-		# Bind a Queue producer. Use this binding to schedule an arbitrary task that may be processed later by a Queue consumer.
-		# Docs: https://developers.cloudflare.com/queues/get-started
-		# [[queues.producers]]
-		# binding = "MY_QUEUE"
-		# queue = "my-queue"
-
-		# Bind a Queue consumer. Queue Consumers can retrieve tasks scheduled by Producers to act on them.
-		# Docs: https://developers.cloudflare.com/queues/get-started
-		# [[queues.consumers]]
-		# queue = "my-queue"
-
-		# Bind another Worker service. Use this binding to call another Worker without network overhead.
-		# Docs: https://developers.cloudflare.com/workers/platform/services
-		# [[services]]
-		# binding = "MY_SERVICE"
-		# service = "my-service"
-
-		# Bind a Durable Object. Durable objects are a scale-to-zero compute primitive based on the actor model.
-		# Durable Objects can live for as long as needed. Use these when you need a long-running "server", such as in realtime apps.
-		# Docs: https://developers.cloudflare.com/workers/runtime-apis/durable-objects
-		# [[durable_objects.bindings]]
-		# name = "MY_DURABLE_OBJECT"
-		# class_name = "MyDurableObject"
-
-		# Durable Object migrations.
-		# Docs: https://developers.cloudflare.com/workers/learning/using-durable-objects#configure-durable-object-classes-with-migrations
-		# [[migrations]]
-		# tag = "v1"
-		# new_classes = ["MyDurableObject"]
+	[[env.prod.r2_buckets]]
+		binding             = "r2"
+		bucket_name         = "calligo"
+		preview_bucket_name = "calligo-preview"

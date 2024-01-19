@@ -158,41 +158,40 @@ copyCss('nav form', '#left-nav', '#left-nav-copy', ['borderLeft']);
 addNavLink('https://www.calligo.com.br/manifesto', 'Nosso Propósito', start($('#left-nav')));
 
 // #region rest
-// document.onload = () => {
-//   console.log('DOCUMENT LOADED ---------------');
-//   const app = $('#app').contentDocument;
-//   console.log('App', app);
+document.onload = () => {
+	console.log('DOCUMENT LOADED ---------------');
+	const app = $('#app').contentDocument;
+	console.log('App', app);
 
-//   window.app = app;
+	window.app = app;
 
-//   let fix = () => {
-//     const logo = $$('[href="/"]', app)[0];
+	let fix = () => {
+		const logo = $$('[href="/"]', app)[0];
 
-//     console.log('[iframe] App', app);
-//     console.log('[iframe] Logo id/url', logo.getAttribute('id'), logo.href);
+		console.log('[iframe] App', app);
+		console.log('[iframe] Logo id/url', logo.getAttribute('id'), logo.href);
 
-//     logo.setAttribute('href', "https://www.calligo.com.br");
+		logo.setAttribute('href', 'https://www.calligo.com.br');
 
-//     logo.onclick = (evt) => {
-//       window.location.href = "https://www.calligo.com.br";
-//       console.log(evt);
-//       evt.preventDefault = true;
-//     };
+		logo.onclick = (evt) => {
+			window.location.href = 'https://www.calligo.com.br';
+			console.log(evt);
+			evt.preventDefault = true;
+		};
 
-//     console.log('[iframe] Logo id/url', logo.getAttribute('id'), logo.href);
-//     console.log('[iframe] Logo', logo);
+		console.log('[iframe] Logo id/url', logo.getAttribute('id'), logo.href);
+		console.log('[iframe] Logo', logo);
+	};
 
-//   };
+	const a = document.createElement('a');
+	a.className = 'calligo-nav-link';
+	a.href = 'https://www.calligo.com.br/manifest';
+	a.innerHTML = `<span class='calligo-nav-link-inner'>
+    <span>Nosso Propósito</span>
+  </span>`;
 
-//   const a = document.createElement('a');
-//   a.className = 'calligo-nav-link';
-//   a.href = 'https://www.calligo.com.br/manifest';
-//   a.innerHTML = `<span class='calligo-nav-link-inner'>
-//     <span>Nosso Propósito</span>
-//   </span>`;
+	$('nav').appendChild(a);
 
-//   $('nav').appendChild(a);
-
-//   app.onload = fix;
-// };
+	app.onload = fix;
+};
 // #endregion
